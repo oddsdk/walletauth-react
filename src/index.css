@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.modal-box {
+  @apply p-8;
+}
+
+.label {
+  @apply px-0;
+}
+
+.label-text-alt {
+  @apply text-sm;
+}
