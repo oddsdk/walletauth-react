@@ -2,6 +2,7 @@ import * as walletauth from "webnative-walletauth";
 import { AppScenario, leave, setup } from "webnative";
 import { filesystemStore, sessionStore } from "../stores";
 import { addNotification } from "../lib/notifications";
+import { initializeFilesystem } from "../routes/gallery/lib/gallery";
 import { getRecoil, setRecoil } from "recoil-nexus";
 
 export type SESSION = {
@@ -58,10 +59,12 @@ export const initialize = async (): Promise<void> => {
  * Handle updates to the WNFS appState by setting the session and filesystem stores
  * @param appState
  */
-const handleAppState = (appState) => {
+const handleAppState = async (appState) => {
   // Update FS store
   setRecoil(filesystemStore, appState.fs);
   const session = getRecoil(sessionStore);
+
+  await initializeFilesystem(appState.fs);
 
   switch (appState.scenario) {
     case AppScenario.Authed:
