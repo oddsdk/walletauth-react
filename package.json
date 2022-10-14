@@ -25,7 +25,7 @@
     "webnative-walletauth": "fission-codes/webnative-walletauth#a8db611b6b4ab1ce55d20b1e4b86694f504eac9c"
   },
   "scripts": {
-    "dev": "GENERATE_SOURCEMAP=false PORT=4001 react-app-rewired start",
+    "dev": "GENERATE_SOURCEMAP=false PORT=4501 react-app-rewired start",
     "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
     "eject": "react-scripts eject"
   },

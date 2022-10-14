@@ -1,12 +1,45 @@
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
 
-import { appName } from '../lib/app-info';
+import { appName } from "../lib/app-info";
 import { copyAddressToClipboard } from "../lib/session";
-import { sessionStore } from '../stores';
+import { sessionStore } from "../stores";
 
 const HomeRoute = () => {
   const session = useRecoilValue(sessionStore);
+  const [contacts, setContacts] = useState([]);
+
+  useEffect(() => {
+    const getContacts = async () => {
+      await (window as any).fs.write(
+        (window as any).wn.path.file("private", "contacts", "contacts.json"),
+        new TextEncoder().encode(
+          JSON.stringify([
+            "0x7682c9585045EE3eeB88E610C3564E684BA5488A",
+            "0xADb5401CB913a78d0bA161C1Af66Ac35243b6d1c",
+            "0x83215480dB2C6A7E56f9E99EF93AB9B36F8A3DD5",
+          ])
+        )
+      );
+
+      const contactsRaw = await (window as any).fs.get(
+        (window as any).wn.path.file("private", "contacts", "contacts.json")
+      );
+      console.log("contactsRaw", contactsRaw);
+      setContacts(
+        JSON.parse(new TextDecoder().decode(contactsRaw.content as Uint8Array))
+      );
+    };
+
+    if (!contacts.length && (window as any).fs && (window as any).wn) {
+      getContacts();
+    }
+  }, [(window as any).fs, contacts, session.address]);
+
+  useEffect(() => {
+    console.log("contacts", contacts);
+  }, [contacts]);
 
   return (
     <>
@@ -27,6 +60,23 @@ const HomeRoute = () => {
                     {session.address}
                   </span>
                 </p>
+              </div>
+            </div>
+
+            <div className="card card-bordered w-96 dark:border-slate-600">
+              <div className="card-body text-left">
+                <h2 className="card-title">📓 Address Book</h2>
+                <ul>
+                  {!!contacts &&
+                    contacts?.length &&
+                    contacts?.map((contact, i) => (
+                      <li key={i} className="text-sm mb-1 list-none">
+                        <button className="inline-block text-right">
+                          {contact.replace(/(.{35})..+/, "$1…")}
+                        </button>
+                      </li>
+                    ))}
+                </ul>
               </div>
             </div>
 
