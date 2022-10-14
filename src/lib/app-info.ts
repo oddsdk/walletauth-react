@@ -1,5 +1,5 @@
 export const appName = 'Awesome Webnative WalletAuth App';
 export const appDescription = 'This is another awesome Webnative app.';
-export const appURL = 'https://walletauth-react.netlify.app';
+export const appURL = 'https://webnative-walletauth-react.netlify.app';
 export const appImageURL = `${appURL}/preview.png`;
 export const fissionServerUrl = 'runfission.com';
