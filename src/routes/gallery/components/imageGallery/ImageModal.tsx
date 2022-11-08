@@ -127,16 +127,16 @@ const ImageModal = ({ image, isModalOpen, onClose }: Props) => {
             handleCloseModal();
           }}
         >
-          <div className="modal-box relative text-center text-base-content border dark:border-slate-600">
+          <div className="modal-box relative text-center text-base-content">
             <label
               htmlFor={`image-modal-${selectedImage.cid}`}
-              className="btn btn-xs btn-circle absolute right-2 top-2 dark:bg-slate-600"
+              className="btn btn-xs btn-circle absolute right-2 top-2"
               onClick={handleCloseModal}
             >
               ✕
             </label>
             <div>
-              <h3 className="mb-7 text-xl font-serif">{selectedImage.name}</h3>
+              <h3 className="mb-7 text-lg break-all">{selectedImage.name}</h3>
 
               <div className="relative">
                 {showPreviousArrow && (
@@ -148,7 +148,7 @@ const ImageModal = ({ image, isModalOpen, onClose }: Props) => {
                   </button>
                 )}
                 <img
-                  className="block object-cover object-center w-full h-full mb-4 rounded-[1rem]"
+                  className="block object-cover object-center border-2 border-base-content w-full h-full mb-4 rounded-[1rem]"
                   alt={selectedImage.name}
                   src={selectedImage.src}
                 />
@@ -182,7 +182,7 @@ const ImageModal = ({ image, isModalOpen, onClose }: Props) => {
                     Download Image
                   </a>
                   <button
-                    className="btn bg-error text-white"
+                    className="btn btn-outline"
                     onClick={handleDeleteImage}
                   >
                     Delete Image
