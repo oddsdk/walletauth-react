@@ -1,6 +1,8 @@
+import * as wn from "webnative";
 import * as walletauth from "webnative-walletauth";
 import { AppScenario, leave, setup } from "webnative";
 import { filesystemStore, sessionStore } from "../stores";
+import { ACCOUNT_SETTINGS_DIR } from "../lib/account-settings";
 import { addNotification } from "../lib/notifications";
 import { initializeFilesystem } from "../routes/gallery/lib/gallery";
 import { getRecoil, setRecoil } from "recoil-nexus";
@@ -65,6 +67,9 @@ const handleAppState = async (appState) => {
   const session = getRecoil(sessionStore);
 
   await initializeFilesystem(appState.fs);
+
+  // Create directory for Account Settings
+  await appState.fs.mkdir(wn.path.directory(...ACCOUNT_SETTINGS_DIR));
 
   switch (appState.scenario) {
     case AppScenario.Authed:
@@ -131,4 +136,3 @@ export const copyAddressToClipboard: () => Promise<void> = async () => {
 };
 
 export default initialize;
-
