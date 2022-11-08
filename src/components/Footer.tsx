@@ -9,7 +9,7 @@ const Footer = () => {
    * I typically don't do browser specific tweaks, but Firefox doesn't fully support background-clip
    * so the marquee text is cut off half way through the animation
    */
-  const isFirefox = navigator.userAgent.indexOf("Firefox") != -1;
+  const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
 
   return (
     <div className="fixed z-0 lg:z-20 right-0 bottom-0 left-0 h-8 flex items-center motion-reduce:justify-center motion-safe:justify-end bg-base-content overflow-x-hidden">
