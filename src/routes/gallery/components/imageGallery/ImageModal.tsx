@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 
 import { galleryStore } from "../../stores";
 import { deleteImageFromWNFS, type Image } from "../../lib/gallery";
-import { fissionServerUrl } from "../../../../lib/app-info";
+import { ipfsGatewayUrl } from "../../../../lib/app-info";
 
 type Props = {
   image: Image;
@@ -121,7 +121,7 @@ const ImageModal = ({ image, isModalOpen, onClose }: Props) => {
           className="modal cursor-pointer z-50"
           onClick={(event) => {
             if (event.currentTarget != event.target) {
-              return
+              return;
             }
 
             handleCloseModal();
@@ -163,7 +163,7 @@ const ImageModal = ({ image, isModalOpen, onClose }: Props) => {
               </div>
               <div className="flex flex-col items-center justify-center">
                 <a
-                  href={`https://ipfs.${fissionServerUrl}/ipfs/${selectedImage.cid}/userland`}
+                  href={`https://ipfs.${ipfsGatewayUrl}/ipfs/${selectedImage.cid}/userland`}
                   target="_blank"
                   rel="noreferrer"
                   className="underline mb-4 hover:text-slate-500"
