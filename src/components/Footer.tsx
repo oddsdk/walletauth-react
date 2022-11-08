@@ -6,8 +6,7 @@ import { THEME } from "../lib/theme";
 const Footer = () => {
   const theme = useRecoilValue(themeStore);
   /**
-   * I typically don't do browser specific tweaks, but Firefox doesn't fully support background-clip
-   * so the marquee text is cut off half way through the animation
+   * Firefox doesn't fully support background-clip so the marquee text is cut off half way through the animation
    */
   const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
 
