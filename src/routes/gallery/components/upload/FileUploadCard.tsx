@@ -2,7 +2,7 @@ import { useRecoilValue } from "recoil";
 
 import { galleryStore } from "../../stores";
 import { handleFileInput } from "../../lib/gallery";
-import FileUploadIcon from "../../../../components/icons/FileUploadIcon";
+import FileUploadIcon from "../icons/FileUploadIcon";
 
 const FileUploadCard = () => {
   const gallery = useRecoilValue(galleryStore);

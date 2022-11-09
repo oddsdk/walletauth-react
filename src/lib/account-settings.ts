@@ -21,6 +21,7 @@ export type AccountSettings = {
   avatar: Avatar;
   loading: boolean;
 };
+
 interface AvatarFile extends PuttableUnixTree, WNFile {
   cid: CID;
   content: Uint8Array;
