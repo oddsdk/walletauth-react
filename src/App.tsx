@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import Home from './routes/HomeRoute';
 import Gallery from './routes/gallery/GalleryRoute';
 import Settings from "./routes/SettingsRoute";
+import NotFound from "./routes/NotFoundRoute";
 import SidebarNav from './components/nav/SidebarNav';
 
 let appInitialized = false;
@@ -42,6 +43,7 @@ const App = () => {
               <Route path="/settings" element={<Settings />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/" element={<Home />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
         </SidebarNav>
