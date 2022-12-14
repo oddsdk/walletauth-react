@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 
 import { disconnect, copyAddressToClipboard, initialize } from '../../../lib/session'
 import { sessionStore } from '../../../stores'
+import ConnectIcon from '../../icons/Connect'
 
 const Connect = () => {
   const navigate = useNavigate();
@@ -52,8 +53,11 @@ const Connect = () => {
   }
 
   return (
-    <button className="btn btn-sm h-10 btn-primary normal-case" onClick={initialize}>
-      Connect
+    <button
+      className="btn btn-primary !btn-lg !h-10 gap-2"
+      onClick={initialize}
+    >
+      <ConnectIcon /> Connect this device
     </button>
   );
 };

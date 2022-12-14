@@ -1,5 +1,8 @@
-import { getAvatarFromWNFS, uploadAvatarToWNFS } from '../../lib/account-settings'
-import Avatar from './Avatar'
+import {
+  getAvatarFromWNFS,
+  uploadAvatarToWNFS,
+} from "../../lib/account-settings";
+import Avatar from "./Avatar";
 
 const AvatarUpload = () => {
   /**
@@ -13,7 +16,7 @@ const AvatarUpload = () => {
   };
 
   return (
-    <>
+    <div>
       <h3 className="text-lg mb-4">Avatar</h3>
       <div className="flex items-center gap-4">
         <Avatar />
@@ -29,8 +32,8 @@ const AvatarUpload = () => {
           className="hidden"
         />
       </div>
-    </>
+    </div>
   );
-}
+};
 
 export default AvatarUpload;

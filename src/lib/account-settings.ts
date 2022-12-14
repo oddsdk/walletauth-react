@@ -1,4 +1,3 @@
-
 import * as wn from "webnative";
 import * as uint8arrays from "uint8arrays";
 import { getRecoil, setRecoil } from "recoil-nexus";
@@ -6,6 +5,7 @@ import type { CID } from "multiformats/cid";
 import type { PuttableUnixTree, File as WNFile } from "webnative/fs/types";
 import type { Metadata } from "webnative/fs/metadata";
 
+import { fileToUint8Array } from "./utils";
 import { accountSettingsStore, filesystemStore } from "../stores";
 import { addNotification } from "./notifications";
 
@@ -35,7 +35,7 @@ export const ACCOUNT_SETTINGS_DIR = ["private", "settings"];
 const AVATAR_DIR = [...ACCOUNT_SETTINGS_DIR, "avatars"];
 const AVATAR_ARCHIVE_DIR = [...AVATAR_DIR, "archive"];
 const AVATAR_FILE_NAME = "avatar";
-const FILE_SIZE_LIMIT = 5;
+const FILE_SIZE_LIMIT = 20;
 
 /**
  * Move old avatar to the archive directory
@@ -80,7 +80,6 @@ export const getAvatarFromWNFS = async (): Promise<void> => {
     // Set loading: true on the accountSettingsStore
     setRecoil(accountSettingsStore, { ...accountSettings, loading: true });
 
-
     // If the avatar dir doesn't exist, silently fail and let the UI handle it
     const avatarDirExists = await fs.exists(wn.path.file(...AVATAR_DIR));
     if (!avatarDirExists) {
@@ -120,7 +119,11 @@ export const getAvatarFromWNFS = async (): Promise<void> => {
     };
 
     // Push images to the accountSettingsStore
-    setRecoil(accountSettingsStore, { ...accountSettings, avatar, loading: false });
+    setRecoil(accountSettingsStore, {
+      ...accountSettings,
+      avatar,
+      loading: false,
+    });
   } catch (error) {
     console.error(error);
     setRecoil(accountSettingsStore, {
@@ -143,10 +146,10 @@ export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
     // Set loading: true on the accountSettingsStore
     setRecoil(accountSettingsStore, { ...accountSettings, loading: true });
 
-    // Reject files over 5MB
+    // Reject files over 20MB
     const imageSizeInMB = image.size / (1024 * 1024);
     if (imageSizeInMB > FILE_SIZE_LIMIT) {
-      throw new Error("Image can be no larger than 5MB");
+      throw new Error("Image can be no larger than 20MB");
     }
 
     // Archive old avatar
@@ -164,15 +167,15 @@ export const uploadAvatarToWNFS = async (image: File): Promise<void> => {
     // Create a sub directory and add the avatar
     await fs.write(
       wn.path.file(...AVATAR_DIR, updatedImage.name),
-      updatedImage
+      await fileToUint8Array(updatedImage)
     );
 
     // Announce the changes to the server
     await fs.publish();
 
-    addNotification({ msg: `Your avatar has been updated!`, type: 'success' });
+    addNotification({ msg: `Your avatar has been updated!`, type: "success" });
   } catch (error) {
-    addNotification({ msg: error.message, type: 'error' });
+    addNotification({ msg: error.message, type: "error" });
     console.error(error);
   }
 };

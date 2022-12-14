@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from "recoil";
 
 import { sessionStore, themeStore } from '../stores';
-import { THEME, storeTheme } from "../lib/theme";
+import { DEFAULT_THEME_KEY, storeTheme, ThemeOptions } from "../lib/theme";
 import AlphaTag from './nav/AlphaTag';
 import Avatar from "./settings/Avatar";
 import BrandLogo from './icons/BrandLogo';
@@ -10,7 +10,6 @@ import BrandWordmark from './icons/BrandWordmark';
 import DarkMode from './icons/DarkMode';
 import Hamburger from './icons/Hamburger';
 import LightMode from './icons/LightMode';
-import Connect from "./auth/connect/Connect";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,10 +17,16 @@ const Header = () => {
   const [theme, setTheme] = useRecoilState(themeStore);
 
   const handleUpdateTheme = () => {
-    const newTheme = Object.values(THEME).filter((val) => val !== theme)[0];
-    setTheme(newTheme);
+    localStorage.setItem(DEFAULT_THEME_KEY, "false");
+    const newTheme = Object.values(ThemeOptions).filter(
+      (val) => val !== theme.selectedTheme
+    )[0];
+    setTheme({
+      selectedTheme: newTheme,
+      useDefault: false,
+    });
     storeTheme(newTheme);
-  }
+  };
 
   return (
     <header className="navbar flex bg-base-100 pt-4">
@@ -45,7 +50,7 @@ const Header = () => {
       </div>
 
       {/* Even if the user is not authed, render this header in the connection flow */}
-      {!session.authed ? (
+      {!session.authed && (
         <div
           className="hidden lg:flex flex-1 items-center cursor-pointer gap-3"
           onClick={() => navigate("/")}
@@ -58,24 +63,18 @@ const Header = () => {
             <AlphaTag />
           </div>
         </div>
-      ) : null}
+      )}
 
       <div className="ml-auto">
-        {!session.loading && !session.authed ? (
-          <div className="flex-none">
-            <Connect />
-          </div>
-        ) : null}
-
-        {session.authed ? (
+        {session.authed && (
           <Link to="/settings/" className="ml-2 cursor-pointer">
             <Avatar size="small" />
           </Link>
-        ) : null}
+        )}
 
         <span className="ml-2 cursor-pointer">
           <span onClick={handleUpdateTheme}>
-            {theme === THEME.LIGHT ? <LightMode /> : <DarkMode />}
+            {theme.selectedTheme === ThemeOptions.LIGHT ? <LightMode /> : <DarkMode />}
           </span>
         </span>
       </div>

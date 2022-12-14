@@ -30,7 +30,7 @@ const App = () => {
   useMountEffect()
 
   return (
-    <div data-theme={theme} className="App min-h-screen">
+    <div data-theme={theme.selectedTheme} className="App min-h-screen">
       <Router>
         <Notifications />
 

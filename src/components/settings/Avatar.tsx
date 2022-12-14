@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
 
-import { accountSettingsStore, sessionStore } from '../../stores'
-import { getAvatarFromWNFS } from '../../lib/account-settings'
+import { accountSettingsStore, sessionStore } from "../../stores";
+import { getAvatarFromWNFS } from "../../lib/account-settings";
 
 let imagesFetched = false;
 
-const Avatar = ({ size = 'large' }) => {
-  const accountSettings = useRecoilValue(accountSettingsStore)
-  const session = useRecoilValue(sessionStore)
+const Avatar = ({ size = "large" }) => {
+  const accountSettings = useRecoilValue(accountSettingsStore);
+  const session = useRecoilValue(sessionStore);
 
   const sizeClasses =
     size === "large"
@@ -37,7 +37,7 @@ const Avatar = ({ size = 'large' }) => {
               className={`flex items-center justify-center object-cover rounded-full border-2 border-base-content ${sizeClasses}`}
             >
               <span
-                className={`animate-spin ease-linear rounded-full border-2 border-t-2 border-t-orange-300 border-base-content ${loaderSizeClasses}`}
+                className={`animate-spin ease-linear rounded-full border-2 border-t-2 border-t-orange-500 border-base-content ${loaderSizeClasses}`}
               />
             </div>
           ) : (
@@ -57,6 +57,6 @@ const Avatar = ({ size = 'large' }) => {
       )}
     </>
   );
-}
+};
 
 export default Avatar;

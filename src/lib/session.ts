@@ -1,6 +1,6 @@
 import * as wn from "webnative";
 import * as walletauth from "webnative-walletauth";
-import { AppScenario, leave, setup } from "webnative";
+
 import { filesystemStore, sessionStore } from "../stores";
 import { ACCOUNT_SETTINGS_DIR } from "../lib/account-settings";
 import { addNotification } from "../lib/notifications";
@@ -14,9 +14,6 @@ export type SESSION = {
   error: boolean;
 };
 
-// TODO: Add a flag or script to turn debugging on/off
-setup.debug({ enabled: false });
-
 export const initialize = async (): Promise<void> => {
   const session = getRecoil(sessionStore);
 
@@ -26,22 +23,16 @@ export const initialize = async (): Promise<void> => {
       loading: true,
     });
 
-    // Point to staging instance
-    walletauth.setup.debug({ enabled: true });
-    walletauth.setup.endpoints({
-      api: "https://runfission.net",
-      lobby: "https://auth.runfission.net",
-      user: "fissionuser.net",
-    });
-
     // Get the initial WNFS appState
-    const initialAppState = await walletauth.app({
-      onAccountChange: (newAppState) => handleAppState(newAppState),
-      onDisconnect: () => disconnect(),
+    const program = await walletauth.program({
+      namespace: { creator: "Fission", name: "Walletauth Template" },
+
+      onAccountChange: (p) => handleProgram(p),
+      onDisconnect: disconnect,
     });
 
     // Populate session and filesystem stores
-    handleAppState(initialAppState);
+    handleProgram(program);
   } catch (error) {
     console.error(error);
     setRecoil(sessionStore, {
@@ -61,50 +52,46 @@ export const initialize = async (): Promise<void> => {
  * Handle updates to the WNFS appState by setting the session and filesystem stores
  * @param appState
  */
-const handleAppState = async (appState) => {
+const handleProgram = async (program: wn.Program) => {
   // Update FS store
-  setRecoil(filesystemStore, appState.fs);
+  setRecoil(filesystemStore, program.session?.fs);
+
+  // Create directories for the gallery
+  await initializeFilesystem(program.session?.fs);
+
   const session = getRecoil(sessionStore);
 
-  await initializeFilesystem(appState.fs);
+  if (program.session) {
+    // Create directory for Account Settings
+    await program.session.fs.mkdir(wn.path.directory(...ACCOUNT_SETTINGS_DIR));
 
-  // Create directory for Account Settings
-  await appState.fs.mkdir(wn.path.directory(...ACCOUNT_SETTINGS_DIR));
+    // ✅ Authenticated
+    setRecoil(sessionStore, {
+      ...session,
+      address: program.session.username,
+      authed: true,
+      loading: false,
+    });
 
-  switch (appState.scenario) {
-    case AppScenario.Authed:
-      // ✅ Authenticated
-      setRecoil(sessionStore, {
-        ...session,
-        address: appState.username,
-        authed: true,
-        loading: false,
-      });
-
-      addNotification({
-        msg: "Wallet connected. You can now access your Webnative File System.",
-      });
-      break;
-
-    case AppScenario.NotAuthed:
-      // Failed to authenticate with wallet
-      setRecoil(sessionStore, {
-        ...session,
-        address: null,
-        authed: false,
-        error: true,
-        loading: false,
-      });
-      break;
+    addNotification({
+      msg: "Wallet connected. You can now access your Webnative File System.",
+    })
+  } else {
+    // Failed to authenticate with wallet
+    setRecoil(sessionStore, {
+      ...session,
+      address: null,
+      authed: false,
+      error: true,
+      loading: false,
+    });
   }
-};
+}
 
 /**
  * Disconnect the user from their webnative session, reset the sessionStore and go to homepage
  */
 export const disconnect: () => Promise<void> = async () => {
-  await leave({ withoutRedirect: true });
-
   const session = getRecoil(sessionStore);
 
   setRecoil(sessionStore, {
