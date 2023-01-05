@@ -21,8 +21,8 @@
     "recoil-nexus": "^0.4.0",
     "uint8arrays": "^3.1.0",
     "web-vitals": "^2.1.4",
-    "webnative": "^0.34.2",
-    "webnative-walletauth": "fission-codes/webnative-walletauth#a8db611b6b4ab1ce55d20b1e4b86694f504eac9c"
+    "webnative": "^0.35.1",
+    "webnative-walletauth": "^0.2.0"
   },
   "scripts": {
     "dev": "GENERATE_SOURCEMAP=false PORT=4001 react-app-rewired start",

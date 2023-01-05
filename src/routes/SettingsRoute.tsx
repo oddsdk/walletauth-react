@@ -2,8 +2,8 @@ import { Navigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { sessionStore } from "../stores";
-import { copyAddressToClipboard, disconnect } from "../lib/session";
 import AvatarUpload from "../components/settings/AvatarUpload";
+import Address from "../components/settings/Address";
 import ThemePreferences from "../components/settings/ThemePreferences";
 
 const SettingsRoute = () => {
@@ -18,30 +18,11 @@ const SettingsRoute = () => {
       <h1 className="text-xl">Account Settings</h1>
 
       <div className="flex flex-col items-start justify-center gap-6">
-        <div>
-          <AvatarUpload />
-        </div>
+        <AvatarUpload />
 
-        <div>
-          <h3 className="text-lg mb-4">Address</h3>
-          <p
-            className="cursor-pointer transition-colors hover:text-orange-300"
-            onClick={copyAddressToClipboard}
-          >
-            {session.address}
-          </p>
-        </div>
+        <Address />
 
-        <div>
-          <ThemePreferences />
-        </div>
-
-        <div>
-          <h3 className="text-lg mb-4">Disconnect Account</h3>
-          <button className="btn btn-primary" onClick={disconnect}>
-            Disconnect
-          </button>
-        </div>
+        <ThemePreferences />
       </div>
     </div>
   );
