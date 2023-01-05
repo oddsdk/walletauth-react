@@ -3,12 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 
 import { sessionStore } from "../../stores";
-import { disconnect } from "../../lib/session";
 import About from "../icons/About";
 import AlphaTag from "./AlphaTag";
 import BrandLogo from "../icons/BrandLogo";
 import BrandWordmark from "../icons/BrandWordmark";
-import Disconnect from "../icons/Disconnect";
 import Home from "../icons/Home";
 import NavItem from "./NavItem";
 import PhotoGallery from "../icons/PhotoGallery";
@@ -43,15 +41,6 @@ const SidebarNav = ({ children }: any) => {
       label: "About This Template",
       href: "/about/",
       icon: About,
-    },
-    {
-      label: "Disconnect",
-      callback: async () => {
-        await disconnect()
-        navigate('/')
-      },
-      icon: Disconnect,
-      placement: "bottom",
     },
   ];
 
