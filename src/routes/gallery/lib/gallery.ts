@@ -30,13 +30,10 @@ type Link = {
   size: number;
 };
 
-export const GALLERY_DIRS: {
-  [key: string]: string[];
-} = {
-  [AREAS.PUBLIC]: ["public", "gallery"],
-  [AREAS.PRIVATE]: ["private", "gallery"],
+export const GALLERY_DIRS = {
+  [AREAS.PUBLIC]: wn.path.directory("public", "gallery"),
+  [AREAS.PRIVATE]: wn.path.directory("private", "gallery"),
 };
-
 const FILE_SIZE_LIMIT = 20;
 
 /**
@@ -47,18 +44,18 @@ const FILE_SIZE_LIMIT = 20;
 
 export const initializeFilesystem = async (fs: FileSystem): Promise<void> => {
   const publicPathExists = await fs.exists(
-    wn.path.file(...GALLERY_DIRS[AREAS.PUBLIC])
+    GALLERY_DIRS[AREAS.PUBLIC]
   );
   const privatePathExists = await fs.exists(
-    wn.path.file(...GALLERY_DIRS[AREAS.PRIVATE])
+    GALLERY_DIRS[AREAS.PRIVATE]
   );
 
   if (!publicPathExists) {
-    await fs.mkdir(wn.path.directory(...GALLERY_DIRS[AREAS.PUBLIC]));
+    await fs.mkdir(GALLERY_DIRS[AREAS.PUBLIC]);
   }
 
   if (!privatePathExists) {
-    await fs.mkdir(wn.path.directory(...GALLERY_DIRS[AREAS.PRIVATE]));
+    await fs.mkdir(GALLERY_DIRS[AREAS.PRIVATE]);
   }
 };
 
@@ -79,7 +76,7 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     const isPrivate = selectedArea === AREAS.PRIVATE;
 
     // Set path to either private or public gallery dir
-    const path = wn.path.directory(...GALLERY_DIRS[selectedArea]);
+    const path = GALLERY_DIRS[selectedArea];
 
     // Get list of links for files in the gallery dir
     const links = await fs.ls(path);
@@ -87,7 +84,7 @@ export const getImagesFromWNFS: () => Promise<void> = async () => {
     let images = await Promise.all(
       Object.entries(links).map(async ([name]) => {
         const file = await fs.get(
-          wn.path.file(...GALLERY_DIRS[selectedArea], `${name}`)
+          wn.path.combine(GALLERY_DIRS[selectedArea], wn.path.file(`${name}`))
         );
 
         if (!isFile(file)) return null;
@@ -165,7 +162,7 @@ export const uploadImageToWNFS: (image: File) => Promise<void> = async (
 
     // Reject the upload if the image already exists in the directory
     const imageExists = await fs.exists(
-      wn.path.file(...GALLERY_DIRS[selectedArea], image.name)
+      wn.path.combine(GALLERY_DIRS[ selectedArea ], wn.path.file(image.name))
     );
     if (imageExists) {
       throw new Error(`${image.name} image already exists`);
@@ -173,7 +170,7 @@ export const uploadImageToWNFS: (image: File) => Promise<void> = async (
 
     // Create a sub directory and add some content
     await fs.write(
-      wn.path.file(...GALLERY_DIRS[selectedArea], image.name),
+      wn.path.combine(GALLERY_DIRS[ selectedArea ], wn.path.file(image.name)),
       await fileToUint8Array(image)
     );
 
@@ -205,12 +202,14 @@ export const deleteImageFromWNFS: (name: string) => Promise<void> = async (
     const { selectedArea } = gallery;
 
     const imageExists = await fs.exists(
-      wn.path.file(...GALLERY_DIRS[selectedArea], name)
+      wn.path.combine(GALLERY_DIRS[ selectedArea ], wn.path.file(name))
     );
 
     if (imageExists) {
       // Remove images from server
-      await fs.rm(wn.path.file(...GALLERY_DIRS[selectedArea], name));
+      await fs.rm(
+        wn.path.combine(GALLERY_DIRS[selectedArea], wn.path.file(name))
+      );
 
       // Announce the changes to the server
       await fs.publish();
