@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import initialize from "./lib/session";
+import initialize from './lib/session';
 import { themeStore } from './stores';
 import About from './routes/AboutRoute';
 import Header from './components/Header';
@@ -10,8 +10,8 @@ import Notifications from './components/notifications/Notifications';
 import Footer from './components/Footer';
 import Home from './routes/HomeRoute';
 import Gallery from './routes/gallery/GalleryRoute';
-import Settings from "./routes/SettingsRoute";
-import NotFound from "./routes/NotFoundRoute";
+import Settings from './routes/SettingsRoute';
+import NotFound from './routes/NotFoundRoute';
 import SidebarNav from './components/nav/SidebarNav';
 
 let appInitialized = false;
