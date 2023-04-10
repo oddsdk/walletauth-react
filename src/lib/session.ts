@@ -1,4 +1,4 @@
-import * as wn from "webnative";
+import * as odd from "webnative";
 import * as walletauth from "webnative-walletauth";
 
 import { filesystemStore, sessionStore } from "../stores";
@@ -52,7 +52,7 @@ export const initialize = async (): Promise<void> => {
  * Handle updates to the WNFS appState by setting the session and filesystem stores
  * @param appState
  */
-const handleProgram = async (program: wn.Program) => {
+const handleProgram = async (program: odd.Program) => {
   // Update FS store
   setRecoil(filesystemStore, program.session?.fs);
 
@@ -74,7 +74,7 @@ const handleProgram = async (program: wn.Program) => {
     });
 
     addNotification({
-      msg: "Wallet connected. You can now access your Webnative File System.",
+      msg: "Wallet connected. You can now access your ODD File System.",
     })
   } else {
     // Failed to authenticate with wallet
@@ -89,7 +89,7 @@ const handleProgram = async (program: wn.Program) => {
 }
 
 /**
- * Disconnect the user from their webnative session, reset the sessionStore and go to homepage
+ * Disconnect the user from their odd session, reset the sessionStore and go to homepage
  */
 export const disconnect: () => Promise<void> = async () => {
   const session = getRecoil(sessionStore);

@@ -9,7 +9,7 @@ const Public = () => (
 
     <div className="max-w-[590px]">
       <p className="mb-5">
-        Webnative SDK is a true local-first edge computing stack. Effortlessly
+        The ODD SDK is a true local-first edge computing stack. Effortlessly
         give your users:
       </p>
 
