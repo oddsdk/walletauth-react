@@ -1,8 +1,8 @@
 # WalletAuth App Template
 
-[![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes) [![Built by FISSION](https://img.shields.io/badge/ts-odd-v0.34.1-purple.svg)](https://github.com/oddsdk/ts-odd) [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq) [![Discourse](https://img.shields.io/discourse/https/talk.fission.codes/topics)](https://talk.fission.codes)
+[![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes) [![Built by FISSION](https://img.shields.io/badge/@oddjs/odd-v0.37.0-purple.svg)](https://github.com/oddsdk/ts-odd) [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq) [![Discourse](https://img.shields.io/discourse/https/talk.fission.codes/topics)](https://talk.fission.codes)
 
-![ODD UI Screenshot](static/odd-ui.png)
+![ODD UI Screenshot](public/odd-ui.png)
 
 The ODD App Template is a clone-and-go template for building a web application using [ODD WalletAuth](https://github.com/oddsdk/odd-walletauth/), fast. Clone, customize, and deploy to have a running distributed app in mere minutes.
 
