@@ -1,5 +1,5 @@
-import * as odd from "webnative";
-import * as walletauth from "webnative-walletauth";
+import * as odd from "@oddjs/odd";
+import * as walletauth from "@oddjs/odd-walletauth";
 
 import { filesystemStore, sessionStore } from "../stores";
 import { ACCOUNT_SETTINGS_DIR } from "../lib/account-settings";

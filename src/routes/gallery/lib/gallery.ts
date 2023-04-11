@@ -1,9 +1,9 @@
-import * as odd from "webnative";
+import * as odd from "@oddjs/odd";
 import { getRecoil, setRecoil } from "recoil-nexus";
-import type FileSystem from "webnative/fs/index";
-import type PublicFile from "webnative/fs/v1/PublicFile";
-import type PrivateFile from "webnative/fs/v1/PrivateFile";
-import { isFile } from "webnative/fs/types/check";
+import type FileSystem from "@oddjs/odd/fs/index";
+import type PublicFile from "@oddjs/odd/fs/v1/PublicFile";
+import type PrivateFile from "@oddjs/odd/fs/v1/PrivateFile";
+import { isFile } from "@oddjs/odd/fs/types/check";
 
 import { filesystemStore } from "../../../stores";
 import { galleryStore, AREAS } from "../stores";
