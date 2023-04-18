@@ -3,10 +3,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 
 import { sessionStore, themeStore } from '../stores';
 import { DEFAULT_THEME_KEY, storeTheme, ThemeOptions } from "../lib/theme";
-import AlphaTag from './nav/AlphaTag';
 import Avatar from "./settings/Avatar";
 import BrandLogo from './icons/BrandLogo';
-import BrandWordmark from './icons/BrandWordmark';
 import DarkMode from './icons/DarkMode';
 import Hamburger from './icons/Hamburger';
 import LightMode from './icons/LightMode';
@@ -44,7 +42,6 @@ const Header = () => {
             onClick={() => navigate("/")}
           >
             <BrandLogo />
-            <AlphaTag />
           </div>
         )}
       </div>
@@ -56,12 +53,6 @@ const Header = () => {
           onClick={() => navigate("/")}
         >
           <BrandLogo />
-          <div className="hidden lg:inline-block">
-            <BrandWordmark />
-          </div>
-          <div className="hidden sm:inline-block">
-            <AlphaTag />
-          </div>
         </div>
       )}
 
